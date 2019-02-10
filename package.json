@@ -7,13 +7,18 @@
     "start": "node start.js",
     "dev": "nodemon start.js"
   },
-  "keywords": ["node","express","mongo"],
+  "keywords": [
+    "node",
+    "express",
+    "mongo"
+  ],
   "author": "tonixhaker",
   "license": "ISC",
   "dependencies": {
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "express": "^4.16.4",
+    "mongoose": "^5.4.11",
     "nodemon": "^1.18.10"
   }
 }
