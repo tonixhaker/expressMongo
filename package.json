@@ -1,0 +1,19 @@
+{
+  "name": "ExpressBoilerplate",
+  "version": "1.0.0",
+  "description": "Simple boilerplate",
+  "main": "server.js",
+  "scripts": {
+    "start": "node start.js",
+    "dev": "nodemon start.js"
+  },
+  "keywords": ["node","express","mongo"],
+  "author": "tonixhaker",
+  "license": "ISC",
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.10"
+  }
+}
