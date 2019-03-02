@@ -1,10 +1,4 @@
-import express from 'express'
-let router = express.Router();
-
-router.use(function timeLog(req, res, next) {
-    console.log('Time: ', Date.now());
-    next();
-});
-
-
-module.exports = router;
+export function checkAuth(req, res, next) {
+    //::TODO check auth token
+    if ( true ) return next();
+}

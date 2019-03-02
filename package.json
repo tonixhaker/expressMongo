@@ -1,5 +1,5 @@
 {
-  "name": "ExpressBoilerplate",
+  "name": "simple-express",
   "version": "1.0.0",
   "description": "Simple boilerplate",
   "main": "server.js",

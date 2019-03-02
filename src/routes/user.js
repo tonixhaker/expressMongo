@@ -1,7 +1,10 @@
 import express from 'express'
+import {checkAuth} from "./middlewares";
 let router = express.Router();
 const userSchema = require('../models/user');
 
+
+router.use('/user', [ checkAuth ]);
 
 router.get('/user', function(req, res) {
     res.send('user');
