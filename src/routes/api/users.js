@@ -11,6 +11,13 @@ let router = express.Router();
 //POST registration [email,password]
 router.post('/register', auth.optional, (req, res, next) => {
     const { body: { user } } = req;
+    if(!user){
+        return res.status(422).json({
+            errors: {
+                user: 'is required',
+            },
+        });
+    }
 
     if(!user.email) {
         return res.status(422).json({
@@ -38,8 +45,15 @@ router.post('/register', auth.optional, (req, res, next) => {
 
 //POST login [email,password]
 router.post('/login', auth.optional, (req, res, next) => {
-    console.log(req.body);
     const { body: { user } } = req;
+
+    if(!user){
+        return res.status(422).json({
+            errors: {
+                user: 'is required',
+            },
+        });
+    }
 
     if(!user.email) {
         return res.status(422).json({
