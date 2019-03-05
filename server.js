@@ -13,4 +13,13 @@ app.use(bodyParser.json());
 require('./src/config/passport');
 app.use(require('./src/routes'));
 
+//Response handlers
+
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.setHeader('Content-Type','application/json');
+        res.status(401).send(JSON.stringify({"error":"Unauthorized"}));
+    }
+});
+
 const server = app.listen(3000, () => console.log(`Beep-Boop server up on ${server.address().port}`));
