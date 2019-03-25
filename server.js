@@ -3,6 +3,7 @@ import cors from 'cors';
 import mongoose from './src/config/database';
 import bodyParser from 'body-parser';
 import errorHandler from 'errorhandler';
+import {APP_PORT} from "./src/config/env";
 
 
 const app = express();
@@ -22,4 +23,4 @@ app.use(function (err, req, res, next) {
     }
 });
 
-const server = app.listen(3000, () => console.log(`Beep-Boop server up on ${server.address().port}`));
+const server = app.listen(APP_PORT, () => console.log(`Beep-Boop server up on ${APP_PORT}`));

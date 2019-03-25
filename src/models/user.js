@@ -4,6 +4,9 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 const UserSchema = new Schema({
+    googleId:{
+        type:String
+    },
     firstName: {
         type:String,
         required: true,
