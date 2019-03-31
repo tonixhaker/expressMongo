@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
+const findOrCreate = require('mongoose-findorcreate');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
@@ -53,4 +54,6 @@ UserSchema.methods.toAuthJSON = function() {
 };
 
 UserSchema.plugin(uniqueValidator);
+UserSchema.plugin(findOrCreate);
+
 module.exports = model('User', UserSchema);

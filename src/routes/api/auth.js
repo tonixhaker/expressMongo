@@ -1,5 +1,4 @@
 import express from 'express'
-import auth from '../auth';
 import mongoose from 'mongoose';
 import passport from 'passport';
 
@@ -9,7 +8,7 @@ const User = mongoose.model('User');
 let router = express.Router();
 
 //POST registration [email,password]
-router.post('/register', auth.optional, (req, res, next) => {
+router.post('/register',  (req, res, next) => {
     const { body: { user } } = req;
 
     if(!user.email) {
@@ -37,7 +36,7 @@ router.post('/register', auth.optional, (req, res, next) => {
 });
 
 //POST login [email,password]
-router.post('/login', auth.optional, (req, res, next) => {
+router.post('/login', (req, res, next) => {
     console.log(req.body);
     const { body: { user } } = req;
 
@@ -74,7 +73,7 @@ router.post('/login', auth.optional, (req, res, next) => {
 });
 
 //GET return current user info
-router.get('/current', auth.required, (req, res, next) => {
+router.get('/current', (req, res, next) => {
     const { payload: { id } } = req;
 
     return User.findById(id)
@@ -86,5 +85,16 @@ router.get('/current', auth.required, (req, res, next) => {
             return res.json({ user: user.toAuthJSON() });
         });
 });
+
+
+router.get('/google',
+    passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+router.get('/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function(req, res) {
+    return res.json({qwe:"eqeweqweqwe"})
+        //res.redirect('/');
+    });
 
 module.exports = router;
