@@ -27,7 +27,15 @@ passport.use(new GoogleStrategy({
         callbackURL: `${APP_URL}/api/auth/google/callback`
     },
     function(accessToken, refreshToken, profile, done) {
-        User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    const { given_name,family_name, id, email, picture } = profile._json;
+    console.log(profile);
+        User.findOrCreate({email},
+        {
+            googleId:id,
+            picture:picture,
+            firstName:given_name,
+            lastName:family_name
+        }, function (err, user) {
             return done(err, user);
         });
     }

@@ -19,6 +19,7 @@ const UserSchema = new Schema({
         unique: true
     },
     phoneNumber: String,
+    picture: String,
     hash:String,
     salt:String
 });
