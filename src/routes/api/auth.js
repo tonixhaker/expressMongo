@@ -2,43 +2,23 @@ import express from 'express'
 import auth from '../auth';
 import mongoose from 'mongoose';
 import passport from 'passport';
-
-
-
+import {getValidationError} from "../../utils/validation";
+const Joi = require('joi');
 const User = mongoose.model('User');
 let router = express.Router();
 
 //POST registration [email,password]
-router.post('/register', auth.optional, (req, res, next) => {
-    const { body: { user } } = req;
-    if(!user){
-        return res.status(422).json({
-            errors: {
-                user: 'is required',
-            },
-        });
-    }
-
-    if(!user.email) {
-        return res.status(422).json({
-            errors: {
-                email: 'is required',
-            },
-        });
-    }
-
-    if(!user.password) {
-        return res.status(422).json({
-            errors: {
-                password: 'is required',
-            },
-        });
-    }
-
+router.post('/register', auth.optional, (req, res) => {
+    const schema = {
+        email: Joi.string().email().required(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        password: Joi.string().required()
+    };
+    const user = req.body;
+    Joi.validate(user, schema).then().catch((error)=> {return res.json(getValidationError(error))});
     const finalUser = new User(user);
-
     finalUser.setPassword(user.password);
-
     return finalUser.save()
         .then(() => res.json({ user: finalUser.toAuthJSON() }));
 });
@@ -86,14 +66,5 @@ router.post('/login', auth.optional, (req, res, next) => {
         return res.status(400).info;
     })(req, res, next);
 });
-
-router.get('/google',
-    passport.authenticate('google', { scope: ['profile'] }));
-
-router.get('/google/callback',
-    passport.authenticate('google'),
-    function(req, res){
-        res.send('AUTH!!!!!!');
-    });
 
 module.exports = router;
