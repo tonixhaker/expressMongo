@@ -67,4 +67,14 @@ router.post('/login', auth.optional, (req, res, next) => {
     })(req, res, next);
 });
 
+router.post('/google', auth.optional, (req, res, next) => {
+    console.log(req.body.token);
+    const request = require('request');
+    var url = `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.body.token}`;
+    request(url, { json: true }, (err, res, body) => {
+        if (err) { return console.log(err); }
+        console.log(body)
+    });
+});
+
 module.exports = router;
