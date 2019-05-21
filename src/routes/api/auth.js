@@ -2,7 +2,7 @@ import express from 'express'
 import auth from '../auth';
 import mongoose from 'mongoose';
 import passport from 'passport';
-import {getValidationError} from "../../utils/validation";
+import { getValidationError } from "../../utils/validation";
 const Joi = require('joi');
 const User = mongoose.model('User');
 let router = express.Router();
@@ -68,12 +68,30 @@ router.post('/login', auth.optional, (req, res, next) => {
 });
 
 router.post('/google', auth.optional, (req, res, next) => {
-    console.log(req.body.token);
     const request = require('request');
-    var url = `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.body.token}`;
-    request(url, { json: true }, (err, res, body) => {
+    const { token } = req.body;
+    var url = `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`;
+    request(url, { json: true }, (err, reqRes, body) => {
         if (err) { return console.log(err); }
-        console.log(body)
+        const { email, given_name, family_name } = body;
+        const user = {
+            email,
+            firstName: given_name,
+            lastName: family_name
+        };
+        if( email ){
+            User.findOne({ email }, (err, user) => {
+                if(user) {
+                    user.token = user.generateJWT();
+                    return res.json({user: user.toAuthJSON()});
+                }
+            });
+        }
+        const finalUser = new User(user);
+        finalUser.setPassword(token);
+        return finalUser.save()
+            .then(() => res.json({ user: finalUser.toAuthJSON() }));
+
     });
 });
 
