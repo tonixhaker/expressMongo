@@ -20,7 +20,8 @@ router.post('/register', auth.optional, (req, res) => {
     const finalUser = new User(user);
     finalUser.setPassword(user.password);
     return finalUser.save()
-        .then(() => res.json({ user: finalUser.toAuthJSON() }));
+        .then(() => res.json({ user: finalUser.toAuthJSON() }))
+        .catch((e) => res.json(e) );
 });
 
 //POST login [email,password]

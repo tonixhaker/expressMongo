@@ -1,3 +1,5 @@
+import { SECRET } from "../config/env";
+
 const jwt = require('express-jwt');
 
 const getTokenFromHeaders = (req) => {
@@ -11,12 +13,12 @@ const getTokenFromHeaders = (req) => {
 
 const auth = {
     required: jwt({
-        secret: 'secret',
+        secret: SECRET,
         userProperty: 'payload',
         getToken: getTokenFromHeaders,
     }),
     optional: jwt({
-        secret: 'secret',
+        secret: SECRET,
         userProperty: 'payload',
         getToken: getTokenFromHeaders,
         credentialsRequired: false,

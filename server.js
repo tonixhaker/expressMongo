@@ -1,17 +1,16 @@
 import express from 'express'
 import cors from 'cors';
-import mongoose from './src/config/database';
 import bodyParser from 'body-parser';
 import errorHandler from 'errorhandler';
-import {APP_PORT} from "./src/config/env";
-
+import { APP_PORT } from "./src/config/env";
+import mongoose from './src/config/database';
+import passport from './src/config/passport';
 
 const app = express();
 app.use(cors());
 app.use(errorHandler());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-require('./src/config/passport');
 app.use(require('./src/routes'));
 
 //Response handlers

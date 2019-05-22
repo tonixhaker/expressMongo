@@ -1,3 +1,5 @@
+import { SECRET } from "../config/env";
+
 const { Schema, model } = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const crypto = require('crypto');
@@ -44,7 +46,7 @@ UserSchema.methods.generateJWT = function() {
         email: this.email,
         id: this._id,
         exp: parseInt(expirationDate.getTime() / 1000, 10),
-    }, 'secret');
+    }, SECRET);
 };
 
 UserSchema.methods.toAuthJSON = function() {
