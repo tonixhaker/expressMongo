@@ -85,14 +85,14 @@ router.post('/google', auth.optional, (req, res, next) => {
                 if(user) {
                     user.token = user.generateJWT();
                     return res.json({user: user.toAuthJSON()});
+                } else {
+                    const finalUser = new User(user);
+                    finalUser.setPassword(token);
+                    return finalUser.save()
+                        .then(() => res.json({ user: finalUser.toAuthJSON() }));
                 }
             });
         }
-        const finalUser = new User(user);
-        finalUser.setPassword(token);
-        return finalUser.save()
-            .then(() => res.json({ user: finalUser.toAuthJSON() }));
-
     });
 });
 
